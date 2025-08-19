@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Vick_automation — Agence d’automatisation</title>
+  <meta name="description" content="Agence d’automatisation : intégrations no-code/low-code, n8n, Zapier, Make, agents IA, data & reporting. Gagnez du temps, réduisez les erreurs, accélérez la croissance." />
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="Victor Automations" />
+  <meta property="og:description" content="Automatisez. Accélérez. Gagnez du temps." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23000'/%3E%3Cpath d='M50 18c-9 0-16 7-16 16 0 6 3 11 7 14-1 2-2 5-2 7 0 9 7 16 16 16s16-7 16-16c0-3-1-5-2-7 4-3 7-8 7-14 0-9-7-16-16-16z' fill='%23fff'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #0a0a0a;
+      --muted: #6b7280;
+      --accent: #0a84ff; /* Apple-like blue */
+      --card: #ffffff;
+      --border: rgba(0,0,0,.06);
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --radius: 20px;
+      --maxw: 1180px;
+      --blur: 12px;
+      --glass-alpha: 18%;
+      --ring: rgba(10,132,255,.35);
+    }
+    @media (prefers-color-scheme: dark){
+      :root { --bg:#0b0b0c; --fg:#f5f5f7; --muted:#a1a1aa; --card:#111113; --border:rgba(255,255,255,.08); --shadow:0 10px 30px rgba(0,0,0,.35); }
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;letter-spacing:.2px}
+    html{scroll-behavior:smooth}
+    body{position:relative}
+    a{color:var(--fg);text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    [hidden]{display:none !important}
+    .container{max-width:var(--maxw);margin-inline:auto;padding:0 20px}
+
+    /* Aurora animated background for subtle glass ambiance */
+    body::before{
+      content:"";position:fixed;inset:-20% -20% auto -20%;height:60vh;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(60% 60% at 15% 25%, rgba(0,132,255,.10), transparent 70%),
+        radial-gradient(40% 40% at 85% 20%, rgba(255,0,128,.08), transparent 70%),
+        radial-gradient(50% 50% at 50% 80%, rgba(0,200,140,.08), transparent 70%);
+      filter: blur(60px) saturate(120%);
+      animation: aurora 18s ease-in-out infinite alternate;
+    }
+    @keyframes aurora{0%{transform:translate3d(-4%,2%,0) scale(1)}100%{transform:translate3d(4%,-3%,0) scale(1.08)}}
+
+    /* Header */
+    .nav{position:sticky;top:0;backdrop-filter:saturate(180%) blur(16px);background:color-mix(in srgb, var(--bg), transparent 25%);border-bottom:1px solid var(--border);z-index:40;transition:background .25s ease, box-shadow .25s ease, border-color .25s ease}
+    .nav.scrolled{background:color-mix(in srgb, var(--bg), transparent 10%);box-shadow:0 8px 20px rgba(0,0,0,.06);border-color:color-mix(in srgb, var(--border), transparent 0%)}
+    .nav-inner{display:flex;align-items:center;gap:18px;justify-content:space-between;padding:14px 0}
+    .hamburger{display:none;width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(calc(var(--blur) - 4px));-webkit-backdrop-filter:blur(calc(var(--blur) - 4px));display:grid;place-items:center;cursor:pointer}
+    .hamburger span{width:18px;height:2px;background:var(--fg);position:relative}
+    .hamburger span::before,.hamburger span::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--fg)}
+    .hamburger span::before{top:-6px}.hamburger span::after{top:6px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .dot{width:22px;height:22px;border-radius:8px;background:linear-gradient(135deg,#00c6ff,#0072ff)}
+    .menu{display:flex;gap:22px;align-items:center}
+    .menu a{opacity:.85;position:relative;padding:6px 2px;transition:opacity .2s ease,color .2s ease}
+    .menu a:hover{opacity:1}
+    .menu a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:linear-gradient(90deg, color-mix(in srgb,var(--accent),transparent 20%), transparent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+    .menu a:hover::after{transform:scaleX(1)}
+    .menu a.active{color:var(--accent);opacity:1}
+    .menu a.active::after{transform:scaleX(1);background:linear-gradient(90deg, var(--accent), transparent)}
+    .cta{padding:10px 16px;border-radius:999px;background:var(--fg);color:var(--bg);font-weight:600}
+    .cta:hover{transform:translateY(-1px);transition:.25s}
+
+    /* Hero */
+    .hero{padding:80px 0 40px; text-align:center}
+    .tag{display:inline-block;padding:8px 12px;border:1px solid var(--border);border-radius:999px;color:var(--muted);margin-bottom:16px}
+    .title{font-size:clamp(36px,6vw,64px);line-height:1.05;font-weight:800;letter-spacing:-.02em;margin:0 0 12px}
+    .hero .title{background:linear-gradient(90deg, #0072ff, #00c6ff 55%, color-mix(in srgb, var(--fg), transparent 30%));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .subtitle{max-width:760px;margin:0 auto 28px;color:var(--muted)}
+    .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{padding:14px 22px;border-radius:999px;border:1px solid var(--border);background:var(--fg);color:var(--bg);font-weight:700}
+    .btn.secondary{background:transparent;color:var(--fg)}
+
+    /* Cards */
+    .grid{display:grid;gap:18px}
+    @media(min-width:760px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+    .card{background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur)) saturate(130%);-webkit-backdrop-filter:blur(var(--blur)) saturate(130%);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;transition:transform .25s ease, box-shadow .25s ease, background .25s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.10)}
+    .card h3{margin:0 0 8px;font-size:20px}
+    .card p{margin:0;color:var(--muted)}
+
+    /* Section */
+    section{padding:56px 0; scroll-margin-top: 80px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}
+    .section-head h2{font-size:28px;margin:0}
+    .section-sub{margin:8px 0 0;color:var(--muted);font-size:14px}
+    .kpi{display:flex;gap:24px;color:var(--muted);font-weight:600}
+
+    /* Process */
+    .steps{display:grid;gap:18px}
+    @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+    .step{padding:24px;border-radius:16px;border:1px dashed var(--border);background:color-mix(in srgb, var(--card), transparent calc(var(--glass-alpha) - 6%));backdrop-filter:blur(calc(var(--blur) - 2px))}
+    .step .n{display:inline-flex;width:32px;height:32px;border-radius:10px;align-items:center;justify-content:center;background:color-mix(in srgb, var(--fg), transparent 88%);margin-bottom:10px;font-weight:700}
+
+    /* Cases */
+    .case{display:grid;gap:18px;align-items:center}
+    @media(min-width:900px){.case{grid-template-columns:1.2fr .8fr}}
+    .stat{display:flex;gap:8px;align-items:center;color:var(--fg);font-weight:700}
+
+    /* Testimonials */
+    .testi{display:grid;gap:18px}
+    @media(min-width:760px){.testi{grid-template-columns:repeat(3,1fr)}}
+    .quote{padding:22px;border:1px solid var(--border);border-radius:16px;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur))}
+    .quote p{margin:0 0 8px}
+    .quote span{color:var(--muted);font-size:14px}
+
+    /* Footer */
+    footer{border-top:1px solid var(--border);padding:34px 0;color:var(--muted);font-size:14px;text-align:center}
+
+    /* Subtle animation */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease, backdrop-filter .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* Chatbot */
+    .chat-fab{position:fixed;right:22px;bottom:22px;z-index:60;background:linear-gradient(135deg,#00c6ff,#0072ff);color:#fff;border:none;width:56px;height:56px;border-radius:999px;box-shadow:0 10px 24px rgba(0,114,255,.35);cursor:pointer}
+    .chat-panel{position:fixed;right:22px;bottom:90px;width:340px;max-width:calc(100vw - 32px);height:460px;border:1px solid var(--border);border-radius:20px;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;z-index:60}
+    @media(max-width:640px){
+      .nav-inner{gap:10px}
+      .menu{position:fixed;inset:64px 12px auto 12px;display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid var(--border);border-radius:16px;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
+      .menu[hidden]{display:none}
+      .hamburger{display:grid}
+      .hero{padding-top:64px}
+      .chat-panel{left:12px;right:12px;bottom:12px;top:auto;width:auto;height:60vh;border-radius:20px}
+    }
+    .chat-panel:not([hidden]){animation:popIn .28s ease}
+    @keyframes popIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+    .chat-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+    .chat-header strong{font-size:14px}
+    .chat-body{flex:1;padding:14px;overflow:auto;background:color-mix(in srgb, var(--card), transparent 6%)}
+    .msg{max-width:78%;padding:10px 12px;border-radius:14px;margin:8px 0;line-height:1.4}
+    .bot{background:color-mix(in srgb, var(--fg), transparent 92%);border:1px solid var(--border)}
+    .you{background:var(--fg);color:var(--bg);margin-left:auto}
+    .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);backdrop-filter:blur(calc(var(--blur) - 4px))}
+    .chat-input input{flex:1;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:color-mix(in srgb, var(--card), transparent calc(var(--glass-alpha) - 8%));color:var(--fg);transition:border-color .2s ease, box-shadow .2s ease}
+    .chat-input input:focus{outline:none;border-color:color-mix(in srgb, var(--accent), transparent 40%);box-shadow:0 0 0 4px var(--ring)}
+    .send{padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--fg);color:var(--bg);font-weight:700}
+
+    /* Buttons: sheen hover and glass secondary */
+    .btn{position:relative;overflow:hidden;transition:transform .2s ease, box-shadow .2s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+    .btn::before{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(100deg, transparent 20%, rgba(255,255,255,.25) 50%, transparent 80%);}
+    .btn:hover::before{transition:transform .6s ease;transform:translateX(120%)}
+    .btn.secondary{backdrop-filter:blur(calc(var(--blur) - 4px));-webkit-backdrop-filter:blur(calc(var(--blur) - 4px));border:1px solid var(--border);background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));}
+
+    /* Inputs (form) glass look */
+    .field{backdrop-filter:blur(calc(var(--blur) - 4px));-webkit-backdrop-filter:blur(calc(var(--blur) - 4px));background:color-mix(in srgb, var(--card), transparent calc(var(--glass-alpha) - 8%)) !important;transition:border-color .2s ease, box-shadow .2s ease}
+    .field:focus{outline:none;border-color:color-mix(in srgb, var(--accent), transparent 40%) !important;box-shadow:0 0 0 4px var(--ring)}
+
+    /* Google Form embed */
+    .gform-embed{position:relative;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;padding:0}
+    .gform-embed iframe{display:block;width:100%;height:min(88vh, 1100px);border:0;opacity:0;transition:opacity .3s ease}
+    .gform-embed .loading{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.02));}
+    .gform-embed .loading::after{content:"";width:56px;height:56px;border-radius:50%;border:3px solid rgba(0,0,0,.1);border-top-color:var(--accent);animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:640px){.gform-embed iframe{height:min(82vh, 900px)}}
+
+    /* Focus visible for a11y */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+      outline:none;box-shadow:0 0 0 4px var(--ring)
+    }
+
+    /* To top button */
+    .to-top{position:fixed;left:22px;bottom:22px;z-index:60;background:linear-gradient(135deg,#00c6ff,#0072ff);color:#fff;border:none;width:46px;height:46px;border-radius:999px;box-shadow:0 10px 24px rgba(0,114,255,.35);cursor:pointer;display:grid;place-items:center}
+    .to-top:not([hidden]){animation:fadeIn .2s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    /* Mobile sticky CTA */
+    .cta-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:55;display:none;gap:8px;justify-content:center;padding:10px;border:1px solid var(--border);border-radius:16px;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
+    .cta-bar .btn{padding:12px 18px}
+    @media(max-width:640px){.cta-bar{display:flex}}
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important;transition:none !important}
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Accueil">
+        <span class="dot" aria-hidden="true"></span>
+        Vick_automation
+      </a>
+      <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainmenu"><span></span></button>
+      <div class="menu" id="mainmenu" role="navigation" aria-label="Navigation principale">
+        <a href="#services">Services</a>
+        <a href="#process">Méthode</a>
+        <a href="#cas">Cas d’utilisation</a>
+        <a href="#avis">Avis</a>
+        <a href="#contact" class="cta" style="padding:8px 14px">Réserver</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero container" id="top">
+    <span class="tag">Automatisation • Intégration • IA</span>
+    <h1 class="title">Automatisez. Accélérez. <br>Gagnez du temps.</h1>
+    <p class="subtitle">Nous concevons des systèmes qui travaillent pour vous 24/7 : CRM, emailing, intégrations n8n / Zapier / Make, agents IA, data & reporting.</p>
+    <div class="actions">
+      <a class="btn" href="https://calendar.app.google/CNkrU2jBQF1AvNV87" target="_blank" rel="noreferrer">Réserver une session</a>
+      <a class="btn secondary" href="#services">Voir nos services</a>
+    </div>
+    <div style="height:36px"></div>
+    <div class="grid grid-3 container reveal" style="gap:12px">
+      <div class="card">
+        <h3>+10h/semaine</h3>
+        <p>Temps économisé en moyenne dès le premier mois.</p>
+      </div>
+      <div class="card">
+        <h3>Erreur ↓ 60%</h3>
+        <p>Moins d’erreurs grâce aux flux standardisés.</p>
+      </div>
+      <div class="card">
+        <h3>Mise en place rapide</h3>
+        <p>Itérations courtes, résultats mesurables.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Services -->
+  <section id="services" class="container reveal">
+    <div class="section-head">
+      <h2>Services</h2>
+      <div class="kpi"><span>n8n</span><span>Zapier</span><span>Make</span><span>API</span></div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Automatisation CRM</h3>
+        <p>Pipelines, relances, scoring, synchronisation clients (HubSpot, Pipedrive, Airtable, Notion…).</p>
+      </div>
+      <div class="card">
+        <h3>Marketing & Emailing</h3>
+        <p>Campagnes, nurturing, segmentation dynamique, déclencheurs multicanaux et analytics.</p>
+      </div>
+      <div class="card">
+        <h3>Données & Reporting</h3>
+        <p>ETL, dashboards automatiques, alertes, qualité & gouvernance des données.</p>
+      </div>
+      <div class="card">
+        <h3>Agents IA & Chatbots</h3>
+        <p>Qualification, support, génération de contenu, connectés à vos bases et outils métier.</p>
+      </div>
+      <div class="card">
+        <h3>Intégrations & Ops</h3>
+        <p>Orchestration fiable (n8n, webhooks, APIs), gestion des erreurs, monitoring.</p>
+      </div>
+      <div class="card">
+        <h3>Audits & Coaching</h3>
+        <p>Cartographie des process, feuille de route d’automatisation, accompagnement des équipes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section id="process" class="container reveal">
+    <div class="section-head"><h2>Méthode</h2></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><strong>Analyse</strong><p>Cartographier les processus, prioriser les gains rapides et définir les KPI.</p></div>
+      <div class="step"><div class="n">2</div><strong>Conception</strong><p>Design des flux, choix des outils, architecture des données et règles métier.</p></div>
+      <div class="step"><div class="n">3</div><strong>Automatisation</strong><p>Implémentation, tests, documentation et monitoring continu.</p></div>
+    </div>
+  </section>
+
+ <!-- Case study -->
+<section id="cas" class="case-image-section">
+    <div class="container section-head" style="align-items:center;justify-content:space-between;gap:12px">
+      <h2>Cas d’utilisation</h2>
+    </div>
+    <img 
+      src="image/1.png" 
+      data-src-light="image/1.png"
+      data-src-dark="image/1-dark.png"
+      alt="Cas d'utilisation — Workflow dashboard" 
+      class="case-image"
+      loading="lazy"
+    />
+  </section>
+  
+  <style>
+    .case-image-section {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .case-image {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 0; /* tu peux mettre 16px si tu veux garder un style arrondi */
+      object-fit: cover;
+    }
+  </style>
+  
+
+  <!-- Testimonials -->
+  <section id="avis" class="container reveal">
+    <div class="section-head"><h2>Ils gagnent déjà du temps</h2></div>
+    <div class="testi">
+      <div class="quote"><p>“On a éliminé 80% des tâches répétitives. L'équipe se concentre enfin sur le stratégique.”</p><span>— Aïda, Directrice Marketing</span></div>
+      <div class="quote"><p>“Implémentation en 10 jours. Notre cycle de vente est 2× plus rapide.”</p><span>— Moussa, CEO SaaS</span></div>
+      <div class="quote"><p>“Les dashboards automatiques nous ont évité des erreurs coûteuses.”</p><span>— Fatou, Ops Manager</span></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="container reveal">
+    <div class="section-head" style="align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:6px">
+      <h2>Parlons de vos automatisations</h2>
+      <p class="section-sub">Réservez un créneau de 15–20 minutes pour qualifier vos besoins et recevoir une proposition claire.</p>
+    </div>
+    <div class="card" style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap">
+      <a class="btn" href="https://calendar.app.google/CNkrU2jBQF1AvNV87" target="_blank" rel="noreferrer">Réserver un appel</a>
+    </div>
+  </section>
+  <div class="cta-bar" id="ctaBar" hidden>
+    <a class="btn" href="https://calendar.app.google/CNkrU2jBQF1AvNV87" target="_blank" rel="noreferrer" style="flex:1;text-align:center">Réserver un appel</a>
+  </div>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Vick_automation — Tous droits réservés.</div>
+  </footer>
+
+  <button class="to-top" type="button" aria-label="Revenir en haut" hidden>↑</button>
+
+  <!-- Chatbot -->
+  <button class="chat-fab" type="button" aria-label="Ouvrir le chat">💬</button>
+  <aside class="chat-panel" id="chat" hidden aria-live="polite" aria-label="Assistant d’automatisation">
+    <div class="chat-header">
+      <strong>Assistant d’automatisation</strong>
+      <button class="btn secondary" type="button" style="padding:8px 12px">Fermer</button>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input">
+      <input id="chatInput" placeholder="Posez votre question… (Entrée pour envoyer)" onkeydown="if(event.key==='Enter'){sendMsg()}" />
+      <button class="send" onclick="sendMsg()">Envoyer</button>
+    </div>
+  </aside>
+
+  <script>
+    // Utilitaires
+    const $ = s => document.querySelector(s);
+    const $$ = s => document.querySelectorAll(s);
+    const byId = id => document.getElementById(id);
+
+    // Année dyn
+    byId('y').textContent = new Date().getFullYear();
+
+    // Révélations au scroll (subtil, façon Apple)
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') })
+    }, { threshold: .12 });
+    $$('.reveal').forEach(el => io.observe(el));
+    // Nav: active link + shadow on scroll + to-top
+    const menuLinks = Array.from(document.querySelectorAll('.menu a'));
+    const sections = menuLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const toTop = document.querySelector('.to-top');
+    function updateNavState(){
+      const y = window.scrollY + 120;
+      let activeIndex = 0;
+      sections.forEach((sec, i) => { if (sec.offsetTop <= y) activeIndex = i; });
+      menuLinks.forEach((a,i)=> a.classList.toggle('active', i===activeIndex));
+      document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 8);
+      if (toTop) toTop.toggleAttribute('hidden', window.scrollY < 280);
+    }
+    window.addEventListener('scroll', updateNavState, { passive:true });
+    window.addEventListener('load', updateNavState);
+    document.addEventListener('click', (e)=>{
+      const topBtn = e.target && e.target.closest('.to-top');
+      if(topBtn){ window.scrollTo({ top:0, behavior:'smooth' }); }
+    }, { passive:true });
+    // Responsive: forcer l'état du menu selon la taille
+    function syncMenuVisibility(){
+      const menu = document.getElementById('mainmenu');
+      const burger = document.querySelector('.hamburger');
+      const isMobile = window.matchMedia('(max-width:640px)').matches;
+      if (!menu || !burger) return;
+      if (isMobile){
+        menu.setAttribute('hidden','');
+        burger.style.display = 'grid';
+        burger.setAttribute('aria-expanded','false');
+      } else {
+        menu.removeAttribute('hidden');
+        burger.style.display = 'none';
+        burger.setAttribute('aria-expanded','false');
+      }
+    }
+    window.addEventListener('resize', syncMenuVisibility, { passive:true });
+    window.addEventListener('load', syncMenuVisibility);
+    
+    // Change l'image selon le mode sombre/clair
+    function updateImageForTheme(){
+      const img = document.querySelector('.case-image');
+      if (!img) return;
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const newSrc = isDark ? img.dataset.srcDark : img.dataset.srcLight;
+      if (newSrc && img.src !== newSrc) {
+        img.src = newSrc;
+      }
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateImageForTheme);
+    window.addEventListener('load', updateImageForTheme);
+
+    // Affiche/masque la barre d'appel à l'action mobile selon visibilité de #contact
+    const ctaBar = byId('ctaBar');
+    const contactSection = byId('contact');
+    if (ctaBar && contactSection){
+      const ctaObs = new IntersectionObserver((entries)=>{
+        entries.forEach(ent=>{
+          const isVisible = ent.isIntersecting && ent.intersectionRatio > 0.1;
+          ctaBar.toggleAttribute('hidden', isVisible);
+        });
+      }, { threshold: [0, 0.1, 1] });
+      ctaObs.observe(contactSection);
+    }
+
+    // Chat: délégation de clics + clavier (robuste)
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      // Menu mobile
+      if (target && target.closest('.hamburger')){
+        const btn = target.closest('.hamburger');
+        const menu = document.getElementById('mainmenu');
+        const isHidden = menu.hasAttribute('hidden');
+        menu.toggleAttribute('hidden', !isHidden);
+        btn.setAttribute('aria-expanded', String(isHidden));
+        return;
+      }
+      if (target && target.closest('#mainmenu a')){
+        const menu = document.getElementById('mainmenu');
+        if (window.matchMedia('(max-width:640px)').matches){
+          menu.setAttribute('hidden','');
+          const btn = document.querySelector('.hamburger');
+          if (btn) btn.setAttribute('aria-expanded','false');
+        }
+      }
+      if (target && target.closest('.chat-fab')) {
+        toggleChat();
+        return;
+      }
+      if (target && target.closest('.chat-header .btn.secondary')) {
+        toggleChat();
+        return;
+      }
+    }, { passive: true });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const panel = byId('chat');
+        if (panel && !panel.hasAttribute('hidden')) {
+          panel.setAttribute('hidden', '');
+          panel.style.display = 'none';
+        }
+      }
+    });
+
+    // Champs style
+    document.querySelectorAll('.field').forEach(el=>{
+      el.style.border = '1px solid var(--border)';
+      el.style.borderRadius = '12px';
+      el.style.padding = '12px 14px';
+      el.style.background = 'transparent';
+      el.style.color = 'var(--fg)';
+    });
+
+    // Formulaire -> API serveur
+    async function submitForm(e){
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      try{
+        const r = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+        const j = await r.json();
+        if(!r.ok || !j.ok){ throw new Error(j.error || 'Erreur inconnue'); }
+        alert('Merci ! Votre message a été envoyé.');
+        e.target.reset();
+      }catch(err){
+        alert("Impossible d'envoyer le message. Réessayez plus tard.");
+        console.error(err);
+      }
+      return false;
+    }
+
+  
+
+    // Chatbot minimaliste (scripté + option API)
+    const CHAT_STORAGE_KEY = 'va_chat_history_v1';
+    const AGENDA = 'https://calendar.app.google/CNkrU2jBQF1AvNV87';
+    const USE_API = false; // désactivé: réponses maintenance/rdv
+    const API_URL = '/api/chat';
+
+    function toggleChat(){
+      const panel = byId('chat');
+      const isHidden = panel.hasAttribute('hidden');
+      if(isHidden){
+        panel.removeAttribute('hidden');
+        panel.style.display = '';
+        setTimeout(()=>panel.scrollTop = panel.scrollHeight, 0);
+        render();
+      } else {
+        panel.setAttribute('hidden','');
+        panel.style.display = 'none';
+      }
+    }
+
+    function loadHistory(){
+      try{ return JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY)) || [] } catch { return [] }
+    }
+    function saveHistory(h){ localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(h)) }
+
+    function render(){
+      const body = byId('chatBody');
+      body.innerHTML = '';
+      const hist = loadHistory();
+      hist.forEach(m => {
+        const div = document.createElement('div');
+        div.className = `msg ${m.role==='user'?'you':'bot'}`;
+        if (m.role === 'bot') {
+          const linkified = (m.content || '').replace(/https?:\/\/\S+/g, (u)=>`<a href="${u}" target="_blank" rel="noreferrer">cliquer ici</a>`);
+          div.innerHTML = linkified;
+        } else {
+          div.textContent = m.content;
+        }
+        body.appendChild(div);
+      });
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function pushUser(txt){ const h = loadHistory(); h.push({role:'user', content:txt}); saveHistory(h); }
+    function pushBot(txt){ const h = loadHistory(); h.push({role:'bot', content:txt}); saveHistory(h); }
+
+    async function sendMsg(){
+      const input = byId('chatInput');
+      const text = (input.value || '').trim();
+      if(!text) return; input.value='';
+      pushUser(text); render();
+
+      // Mode maintenance: 1er message -> maintenance + lien RDV, suivants -> rappel RDV
+      const t = text.toLowerCase();
+      if(!USE_API){
+        const hist = loadHistory();
+        const userMsgCount = hist.filter(m => m.role === 'user').length;
+        const firstReply = `Salut 👋 Je suis actuellement en maintenance. Merci de prendre un rendez-vous ici : ${AGENDA}`;
+        const laterReply = `Veuillez réserver un rendez-vous via ce lien : ${AGENDA}`;
+        const reply = userMsgCount <= 1 ? firstReply : laterReply;
+        pushBot(reply); render();
+      } else {
+        // Relais à une API serveur (ex: n8n/Cloudflare Worker/Node) — à implémenter côté backend
+        pushBot('…'); render();
+        try{
+          const r = await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:loadHistory()})});
+          const data = await r.json();
+          // remplace le dernier message bot par la réponse
+          const h = loadHistory();
+          h[h.length-1] = {role:'bot', content: data.reply || 'Réponse reçue.'};
+          saveHistory(h); render();
+        }catch(e){
+          const h = loadHistory(); h[h.length-1] = {role:'bot', content:'Erreur de connexion à l’API. Essayez plus tard.'}; saveHistory(h); render();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
