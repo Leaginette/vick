@@ -208,8 +208,13 @@
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="#top" aria-label="Accueil">
-        <span class="dot" aria-hidden="true"></span>
-        Vick_automation
+        <span class="          " aria-hidden="true"></span>
+        <img src="image/logo.png" 
+             data-src-light="image/Auto.png"
+             data-src-dark="image/2.png"
+             alt="Vick_automation Logo" 
+             style="height: 60px; width: auto;"
+             class="brand-logo">
       </a>
       <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainmenu"><span></span></button>
       <div class="menu" id="mainmenu" role="navigation" aria-label="Navigation principale">
@@ -513,12 +518,24 @@
     
     // Change l'image selon le mode sombre/clair
     function updateImageForTheme(){
-      const img = document.querySelector('.case-image');
-      if (!img) return;
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const newSrc = isDark ? img.dataset.srcDark : img.dataset.srcLight;
-      if (newSrc && img.src !== newSrc) {
-        img.src = newSrc;
+      // Gestion de l'image de cas d'usage
+      const caseImg = document.querySelector('.case-image');
+      if (caseImg) {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const newSrc = isDark ? caseImg.dataset.srcDark : caseImg.dataset.srcLight;
+        if (newSrc && caseImg.src !== newSrc) {
+          caseImg.src = newSrc;
+        }
+      }
+      
+      // Gestion du logo de la marque
+      const brandLogo = document.querySelector('.brand-logo');
+      if (brandLogo) {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const newSrc = isDark ? brandLogo.dataset.srcDark : brandLogo.dataset.srcLight;
+        if (newSrc && brandLogo.src !== newSrc) {
+          brandLogo.src = newSrc;
+        }
       }
     }
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateImageForTheme);
