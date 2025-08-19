@@ -264,7 +264,7 @@
   </section>
 
   <!-- Process -->
-  <section id="process" class="container reveal">
+  <section id="process" class="container reveal" style="margin-top: 40px;">
     <div class="section-head"><h2>Méthode</h2></div>
     <div class="steps">
       <div class="step"><div class="n">1</div><strong>Analyse</strong><p>Cartographier les processus, prioriser les gains rapides et définir les KPI.</p></div>
@@ -276,22 +276,24 @@
  <!-- Case study -->
 <section id="cas" class="case-image-section">
     <div class="container section-head" style="align-items:center;justify-content:space-between;gap:12px">
-      <h2>Cas d’utilisation</h2>
+      <h2>Cas d'utilisation</h2>
     </div>
-    <img 
-      src="image/1.png" 
-      data-src-light="image/1.png"
-      data-src-dark="image/1-dark.png"
-      alt="Cas d'utilisation — Workflow dashboard" 
-      class="case-image"
-      loading="lazy"
-    />
+    <div class="image-container">
+      <img 
+        src="image/1.png" 
+        data-src-light="image/1.png"
+        data-src-dark="image/1-dark.png"
+        alt="Cas d'utilisation — Workflow dashboard" 
+        class="case-image"
+        loading="lazy"
+      />
+    </div>
   </section>
   
   <style>
     .case-image-section {
       width: 100%;
-      margin: 0;
+      margin: 40px 0 0 0;
       padding: 0;
     }
   
@@ -303,6 +305,25 @@
       margin: 0 auto;
       border-radius: 0; /* tu peux mettre 16px si tu veux garder un style arrondi */
       object-fit: cover;
+    }
+    
+    .image-container {
+      position: relative;
+      margin: 10px auto;
+      max-width: 900px;
+      overflow: hidden;
+    }
+    
+    .case-image {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 0;
+      object-fit: cover;
+      mask: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask: radial-gradient(ellipse at center, black 30%, transparent 70%);
     }
   </style>
   
