@@ -88,6 +88,35 @@
     .card h3{margin:0 0 8px;font-size:20px}
     .card p{margin:0;color:var(--muted)}
 
+    /* Service Cards */
+    .services-carousel{position:relative;overflow:hidden;height:320px;margin:40px 0}
+    .services-carousel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:150px;background:linear-gradient(90deg, var(--bg), transparent);z-index:3;pointer-events:none}
+    .services-carousel::after{content:"";position:absolute;right:0;top:0;bottom:0;width:150px;background:linear-gradient(270deg, var(--bg), transparent);z-index:3;pointer-events:none}
+    .carousel-track{display:flex;gap:20px;position:absolute;top:0;width:max-content}
+    .carousel-track.left{animation:scrollLeft 45s linear infinite}
+    .carousel-track.right{animation:scrollRight 40s linear infinite;top:160px}
+    
+    @keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    @keyframes scrollRight{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+    
+    .service-card{flex-shrink:0;width:280px;padding:20px;border-radius:12px;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur));border:1px solid var(--border);box-shadow:var(--shadow);transition:transform .3s ease, box-shadow .3s ease;position:relative;z-index:2}
+    .service-card::before{content:"";position:absolute;inset:0;border-radius:12px;background:radial-gradient(ellipse at center, transparent 60%, rgba(255,255,255,0.1) 100%);opacity:0;transition:opacity .3s ease;pointer-events:none}
+    .service-card:hover{transform:translateY(-4px);box-shadow:0 15px 35px rgba(0,0,0,.12)}
+    .service-card:hover::before{opacity:1}
+    .service-card h3{font-size:18px;margin:0 0 8px;font-weight:600;color:var(--fg)}
+    .service-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+    
+    @media(max-width:640px){
+      .services-carousel{height:200px;margin:20px 0}
+      .services-carousel::before,.services-carousel::after{width:60px}
+      .carousel-track{gap:12px}
+             .carousel-track.left{animation:scrollLeft 35s linear infinite}
+       .carousel-track.right{animation:scrollRight 30s linear infinite;top:100px}
+      .service-card{width:200px;padding:12px}
+      .service-card h3{font-size:14px;margin:0 0 6px}
+      .service-card p{font-size:12px;line-height:1.4}
+    }
+
     /* Section */
     section{padding:56px 0; scroll-margin-top: 80px}
     .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}
@@ -128,8 +157,8 @@
       .menu{position:fixed;inset:64px 12px auto 12px;display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid var(--border);border-radius:16px;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
       .menu[hidden]{display:none}
       .hamburger{display:grid}
-      .hero{padding-top:64px}
-      .chat-panel{left:12px;right:12px;bottom:12px;top:auto;width:auto;height:60vh;border-radius:20px}
+             .hero{padding-top:64px}
+       .chat-panel{left:12px;right:12px;bottom:12px;top:auto;width:auto;height:60vh;border-radius:20px}
     }
     .chat-panel:not([hidden]){animation:popIn .28s ease}
     @keyframes popIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
@@ -167,16 +196,6 @@
     a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
       outline:none;box-shadow:0 0 0 4px var(--ring)
     }
-
-    /* To top button */
-    .to-top{position:fixed;left:22px;bottom:22px;z-index:60;background:linear-gradient(135deg,#00c6ff,#0072ff);color:#fff;border:none;width:46px;height:46px;border-radius:999px;box-shadow:0 10px 24px rgba(0,114,255,.35);cursor:pointer;display:grid;place-items:center}
-    .to-top:not([hidden]){animation:fadeIn .2s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-    /* Mobile sticky CTA */
-    .cta-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:55;display:none;gap:8px;justify-content:center;padding:10px;border:1px solid var(--border);border-radius:16px;background:color-mix(in srgb, var(--card), transparent var(--glass-alpha));backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
-    .cta-bar .btn{padding:12px 18px}
-    @media(max-width:640px){.cta-bar{display:flex}}
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce){
@@ -235,30 +254,108 @@
       <h2>Services</h2>
       <div class="kpi"><span>n8n</span><span>Zapier</span><span>Make</span><span>API</span></div>
     </div>
-    <div class="grid grid-3">
-      <div class="card">
-        <h3>Automatisation CRM</h3>
-        <p>Pipelines, relances, scoring, synchronisation clients (HubSpot, Pipedrive, Airtable, Notion…).</p>
+    <div class="services-carousel">
+      <div class="carousel-track left">
+        <div class="service-card">
+          <h3>Automatisation CRM</h3>
+          <p>Pipelines, relances, scoring, synchronisation clients (HubSpot, Pipedrive, Airtable, Notion…).</p>
+        </div>
+        <div class="service-card">
+          <h3>Marketing & Emailing</h3>
+          <p>Campagnes, nurturing, segmentation dynamique, déclencheurs multicanaux et analytics.</p>
+        </div>
+        <div class="service-card">
+          <h3>Données & Reporting</h3>
+          <p>ETL, dashboards automatiques, alertes, qualité & gouvernance des données.</p>
+        </div>
+        <div class="service-card">
+          <h3>Agents IA & Chatbots</h3>
+          <p>Qualification, support, génération de contenu, connectés à vos bases et outils métier.</p>
+        </div>
+        <div class="service-card">
+          <h3>Intégrations & Ops</h3>
+          <p>Orchestration fiable (n8n, webhooks, APIs), gestion des erreurs, monitoring.</p>
+        </div>
+        <div class="service-card">
+          <h3>Audits & Coaching</h3>
+          <p>Cartographie des process, feuille de route d'automatisation, accompagnement des équipes.</p>
+        </div>
+        <!-- Duplication pour défilement continu -->
+        <div class="service-card">
+          <h3>Automatisation CRM</h3>
+          <p>Pipelines, relances, scoring, synchronisation clients (HubSpot, Pipedrive, Airtable, Notion…).</p>
+        </div>
+        <div class="service-card">
+          <h3>Marketing & Emailing</h3>
+          <p>Campagnes, nurturing, segmentation dynamique, déclencheurs multicanaux et analytics.</p>
+        </div>
+        <div class="service-card">
+          <h3>Données & Reporting</h3>
+          <p>ETL, dashboards automatiques, alertes, qualité & gouvernance des données.</p>
+        </div>
+        <div class="service-card">
+          <h3>Agents IA & Chatbots</h3>
+          <p>Qualification, support, génération de contenu, connectés à vos bases et outils métier.</p>
+        </div>
+        <div class="service-card">
+          <h3>Intégrations & Ops</h3>
+          <p>Orchestration fiable (n8n, webhooks, APIs), gestion des erreurs, monitoring.</p>
+        </div>
+        <div class="service-card">
+          <h3>Audits & Coaching</h3>
+          <p>Cartographie des process, feuille de route d'automatisation, accompagnement des équipes.</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>Marketing & Emailing</h3>
-        <p>Campagnes, nurturing, segmentation dynamique, déclencheurs multicanaux et analytics.</p>
-      </div>
-      <div class="card">
-        <h3>Données & Reporting</h3>
-        <p>ETL, dashboards automatiques, alertes, qualité & gouvernance des données.</p>
-      </div>
-      <div class="card">
-        <h3>Agents IA & Chatbots</h3>
-        <p>Qualification, support, génération de contenu, connectés à vos bases et outils métier.</p>
-      </div>
-      <div class="card">
-        <h3>Intégrations & Ops</h3>
-        <p>Orchestration fiable (n8n, webhooks, APIs), gestion des erreurs, monitoring.</p>
-      </div>
-      <div class="card">
-        <h3>Audits & Coaching</h3>
-        <p>Cartographie des process, feuille de route d’automatisation, accompagnement des équipes.</p>
+      <div class="carousel-track right">
+        <div class="service-card">
+          <h3>HubSpot</h3>
+          <p>Automatisation des pipelines de vente, scoring des leads, synchronisation des données.</p>
+        </div>
+        <div class="service-card">
+          <h3>Pipedrive</h3>
+          <p>Gestion des opportunités, relances automatiques, reporting des performances.</p>
+        </div>
+        <div class="service-card">
+          <h3>n8n</h3>
+          <p>Workflows automatisés, intégrations personnalisées, gestion des erreurs.</p>
+        </div>
+        <div class="service-card">
+          <h3>Zapier</h3>
+          <p>Connecteurs entre applications, automatisation des tâches répétitives.</p>
+        </div>
+        <div class="service-card">
+          <h3>Make</h3>
+          <p>Scénarios complexes, logique conditionnelle, intégrations avancées.</p>
+        </div>
+        <div class="service-card">
+          <h3>APIs</h3>
+          <p>Développement d'APIs personnalisées, webhooks, synchronisation en temps réel.</p>
+        </div>
+        <!-- Duplication pour défilement continu -->
+        <div class="service-card">
+          <h3>HubSpot</h3>
+          <p>Automatisation des pipelines de vente, scoring des leads, synchronisation des données.</p>
+        </div>
+        <div class="service-card">
+          <h3>Pipedrive</h3>
+          <p>Gestion des opportunités, relances automatiques, reporting des performances.</p>
+        </div>
+        <div class="service-card">
+          <h3>n8n</h3>
+          <p>Workflows automatisés, intégrations personnalisées, gestion des erreurs.</p>
+        </div>
+        <div class="service-card">
+          <h3>Zapier</h3>
+          <p>Connecteurs entre applications, automatisation des tâches répétitives.</p>
+        </div>
+        <div class="service-card">
+          <h3>Make</h3>
+          <p>Scénarios complexes, logique conditionnelle, intégrations avancées.</p>
+        </div>
+        <div class="service-card">
+          <h3>APIs</h3>
+          <p>Développement d'APIs personnalisées, webhooks, synchronisation en temps réel.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -272,6 +369,8 @@
       <div class="step"><div class="n">3</div><strong>Automatisation</strong><p>Implémentation, tests, documentation et monitoring continu.</p></div>
     </div>
   </section>
+
+
 
  <!-- Case study -->
 <section id="cas" class="case-image-section">
@@ -348,18 +447,13 @@
       <a class="btn" href="https://calendar.app.google/CNkrU2jBQF1AvNV87" target="_blank" rel="noreferrer">Réserver un appel</a>
     </div>
   </section>
-  <div class="cta-bar" id="ctaBar" hidden>
-    <a class="btn" href="https://calendar.app.google/CNkrU2jBQF1AvNV87" target="_blank" rel="noreferrer" style="flex:1;text-align:center">Réserver un appel</a>
-  </div>
 
   <footer>
     <div class="container">© <span id="y"></span> Vick_automation — Tous droits réservés.</div>
   </footer>
 
-  <button class="to-top" type="button" aria-label="Revenir en haut" hidden>↑</button>
-
   <!-- Chatbot -->
-  <button class="chat-fab" type="button" aria-label="Ouvrir le chat">💬</button>
+  <button class="chat-fab" type="button" aria-label="Ouvrir le chat">Hello</button>
   <aside class="chat-panel" id="chat" hidden aria-live="polite" aria-label="Assistant d’automatisation">
     <div class="chat-header">
       <strong>Assistant d’automatisation</strong>
@@ -386,24 +480,18 @@
       entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') })
     }, { threshold: .12 });
     $$('.reveal').forEach(el => io.observe(el));
-    // Nav: active link + shadow on scroll + to-top
-    const menuLinks = Array.from(document.querySelectorAll('.menu a'));
-    const sections = menuLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-    const toTop = document.querySelector('.to-top');
-    function updateNavState(){
-      const y = window.scrollY + 120;
-      let activeIndex = 0;
-      sections.forEach((sec, i) => { if (sec.offsetTop <= y) activeIndex = i; });
-      menuLinks.forEach((a,i)=> a.classList.toggle('active', i===activeIndex));
-      document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 8);
-      if (toTop) toTop.toggleAttribute('hidden', window.scrollY < 280);
-    }
-    window.addEventListener('scroll', updateNavState, { passive:true });
-    window.addEventListener('load', updateNavState);
-    document.addEventListener('click', (e)=>{
-      const topBtn = e.target && e.target.closest('.to-top');
-      if(topBtn){ window.scrollTo({ top:0, behavior:'smooth' }); }
-    }, { passive:true });
+         // Nav: active link + shadow on scroll
+     const menuLinks = Array.from(document.querySelectorAll('.menu a'));
+     const sections = menuLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+     function updateNavState(){
+       const y = window.scrollY + 120;
+       let activeIndex = 0;
+       sections.forEach((sec, i) => { if (sec.offsetTop <= y) activeIndex = i; });
+       menuLinks.forEach((a,i)=> a.classList.toggle('active', i===activeIndex));
+       document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 8);
+     }
+     window.addEventListener('scroll', updateNavState, { passive:true });
+     window.addEventListener('load', updateNavState);
     // Responsive: forcer l'état du menu selon la taille
     function syncMenuVisibility(){
       const menu = document.getElementById('mainmenu');
@@ -436,18 +524,7 @@
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateImageForTheme);
     window.addEventListener('load', updateImageForTheme);
 
-    // Affiche/masque la barre d'appel à l'action mobile selon visibilité de #contact
-    const ctaBar = byId('ctaBar');
-    const contactSection = byId('contact');
-    if (ctaBar && contactSection){
-      const ctaObs = new IntersectionObserver((entries)=>{
-        entries.forEach(ent=>{
-          const isVisible = ent.isIntersecting && ent.intersectionRatio > 0.1;
-          ctaBar.toggleAttribute('hidden', isVisible);
-        });
-      }, { threshold: [0, 0.1, 1] });
-      ctaObs.observe(contactSection);
-    }
+
 
     // Chat: délégation de clics + clavier (robuste)
     document.addEventListener('click', (e) => {
